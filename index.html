@@ -1,29 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Fone Fusion</title>
+
+<style>
+body {
+    background-color: #000;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+}
+
+.logo {
+    margin-top: 50px;
+}
+
+h1 {
+    color: orange;
+    font-size: 40px;
+}
+
+input {
+    padding: 12px;
+    font-size: 18px;
+    width: 200px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 18px;
+    background-color: orange;
+    border: none;
+    color: black;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 30px;
+    font-size: 22px;
+    color: orange;
+}
+</style>
 </head>
 
-<body style="text-align:center; font-family:Arial;">
+<body>
 
-<h2>Fone Fusion 📱</h2>
+<div class="logo">
+    <h1>FONE FUSION 📱</h1>
+    <p>Cover | Mobile Phones | Accessories</p>
+</div>
+
 <p>Enter Product Code</p>
 
-<input id="code" placeholder="A14">
+<input id="code" placeholder="e.g. A14">
+<br><br>
 <button onclick="search()">Search</button>
 
-<p id="result"></p>
+<div class="result" id="result"></div>
 
 <script>
 const data = {
 "A14": "Samsung A14 - ₹12999",
 "EB1": "Earbuds - ₹1499",
-"CHG": "Charger - ₹499"
+"CHG": "Charger - ₹499",
+"IP15": "iPhone 15 - ₹79999"
 };
 
 function search(){
 let code = document.getElementById("code").value.toUpperCase();
-let result = data[code] || "Product not found";
+let result = data[code] || "❌ Product not found";
 document.getElementById("result").innerText = result;
 }
 </script>
