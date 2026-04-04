@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fone Fusion</title>
+</head>
+
+<body style="text-align:center; font-family:Arial;">
+
+<h2>Fone Fusion 📱</h2>
+<p>Enter Product Code</p>
+
+<input id="code" placeholder="A14">
+<button onclick="search()">Search</button>
+
+<p id="result"></p>
+
+<script>
+const data = {
+"A14": "Samsung A14 - ₹12999",
+"EB1": "Earbuds - ₹1499",
+"CHG": "Charger - ₹499"
+};
+
+function search(){
+let code = document.getElementById("code").value.toUpperCase();
+let result = data[code] || "Product not found";
+document.getElementById("result").innerText = result;
+}
+</script>
+
+</body>
+</html>
