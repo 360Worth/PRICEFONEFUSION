@@ -1,109 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Fone Fusion</title>
-
-<style>
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#0d0d0d;
-    color:white;
-    text-align:center;
-}
-
-/* Header */
-.header {
-    padding:20px;
-}
-
-.header img {
-    width:120px;
-}
-
-.header h1 {
-    color:orange;
-    margin:10px 0 5px;
-}
-
-.tagline {
-    color:#ccc;
-    font-size:14px;
-}
-
-/* Card */
-.container {
-    margin-top:40px;
-}
-
-.card {
-    background:#1a1a1a;
-    padding:30px;
-    border-radius:15px;
-    display:inline-block;
-    box-shadow:0 0 15px rgba(255,165,0,0.2);
-}
-
-input {
-    padding:12px;
-    width:200px;
-    border:none;
-    border-radius:8px;
-    margin-top:10px;
-    font-size:16px;
-}
-
-button {
-    padding:12px 20px;
-    margin-top:15px;
-    background:orange;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
-}
-
-.result {
-    margin-top:20px;
-    font-size:20px;
-    color:orange;
-}
-</style>
-</head>
-
-<body>
-
-<div class="header">
-    <img src="logo.png" style="width:200px; margin-bottom:10px; filter: drop-shadow(0 0 10px orange);">
-    <h1>FONE FUSION</h1>
-    <div class="tagline">Cover | Mobile Phones | Accessories</div>
-</div>
-
-<div class="container">
-    <div class="card">
-        <h3>Enter Product Code</h3>
-        <input id="code" placeholder="e.g. A14">
-        <br>
-        <button onclick="search()">Check Price</button>
-        <div class="result" id="result"></div>
-    </div>
-</div>
-
 <script>
-const data = {
-"A14": "Samsung A14 - ₹12999",
-"EB1": "Earbuds - ₹1499",
-"CHG": "Charger - ₹499",
-"IP15": "iPhone 15 - ₹79999"
-};
+function calculatePrice() {
+  let input = document.getElementById("code").value.toUpperCase();
 
-function search(){
-let code = document.getElementById("code").value.toUpperCase();
-let result = data[code] || "❌ Product not found";
-document.getElementById("result").innerText = result;
+  let map = {
+    F: "1", U: "2", S: "3", I: "4",
+    O: "5", N: "6", T: "7", E: "8",
+    C: "9", H: "0"
+  };
+
+  let result = "";
+
+  for (let i = 0; i < input.length; i++) {
+    if (map[input[i]]) {
+      result += map[input[i]];
+    }
+  }
+
+  if(result.length > 0){
+    document.getElementById("result").innerText = "Price: ₹" + result;
+  } else {
+    document.getElementById("result").innerText = "Invalid Code";
+  }
 }
 </script>
 
-</body>
-</html>
+<input id="code" placeholder="Enter Code (FUSION)">
+<button onclick="calculatePrice()">Check Price</button>
+<h2 id="result"></h2>
