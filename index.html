@@ -2,92 +2,107 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fone Fusion Price Checker</title>
+<title>Fone Fusion</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: white;
-  text-align: center;
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-.container {
-  margin-top: 80px;
+/* Glass Card */
+.card {
+  background: rgba(255,255,255,0.08);
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 30px rgba(255,165,0,0.2);
+  text-align:center;
+  width:300px;
 }
 
+/* Logo */
 .logo {
-  width: 90px;
-  margin-bottom: 10px;
+  width:80px;
+  animation: float 3s ease-in-out infinite;
 }
 
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-8px);}
+  100% { transform: translateY(0px);}
+}
+
+/* Brand */
 h1 {
-  color: #facc15;
-  margin: 5px;
+  color:#facc15;
+  margin:10px 0;
 }
 
-p {
-  color: #cbd5f5;
-  margin-bottom: 30px;
+.tag {
+  color:#94a3b8;
+  font-size:13px;
+  margin-bottom:20px;
 }
 
-.box {
-  background: rgba(255,255,255,0.1);
-  padding: 25px;
-  border-radius: 15px;
-  display: inline-block;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
+/* Input */
 input {
-  padding: 12px;
-  width: 220px;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  font-size: 16px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin-top:10px;
+  font-size:16px;
+  text-transform: uppercase;
 }
 
+/* Button */
 button {
-  padding: 12px 20px;
-  background: #facc15;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 10px;
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  background:#facc15;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
 }
 
 button:hover {
-  background: #eab308;
+  background:#eab308;
+  box-shadow:0 0 10px #facc15;
 }
 
+/* Result */
 .result {
-  margin-top: 20px;
-  font-size: 22px;
-  color: #22c55e;
+  margin-top:20px;
+  font-size:24px;
+  color:#22c55e;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-  <!-- LOGO -->
   <img src="logo.png" class="logo">
 
-  <!-- BRAND -->
   <h1>FONE FUSION</h1>
-  <p>Cover | Mobile Phones | Accessories</p>
+  <div class="tag">Mobile • Accessories • Covers</div>
 
-  <!-- SEARCH BOX -->
-  <div class="box">
-    <input id="code" placeholder="Enter Code (FUSION)">
-    <button onclick="calculatePrice()">Search</button>
-    <div class="result" id="result"></div>
-  </div>
+  <input id="code" placeholder="Enter Code">
+  <button onclick="calculatePrice()">Check Price</button>
+
+  <div class="result" id="result"></div>
 
 </div>
 
@@ -115,6 +130,13 @@ function calculatePrice() {
     document.getElementById("result").innerText = "Invalid Code";
   }
 }
+
+/* ENTER PRESS SEARCH */
+document.getElementById("code").addEventListener("keypress", function(e){
+  if(e.key === "Enter"){
+    calculatePrice();
+  }
+});
 </script>
 
 </body>
