@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Fone Fusion</title>
+
+<!-- QR LIBRARY -->
 <script src="https://unpkg.com/html5-qrcode"></script>
+
 <style>
 body {
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #020617, #0f172a);
+  font-family: Arial;
+  background:#0f172a;
   color:white;
   display:flex;
   justify-content:center;
@@ -16,76 +19,47 @@ body {
   height:100vh;
 }
 
-/* Glass Card */
 .card {
-  background: rgba(255,255,255,0.08);
-  padding:30px;
-  border-radius:20px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 0 30px rgba(255,165,0,0.2);
+  background:#1e293b;
+  padding:25px;
+  border-radius:15px;
   text-align:center;
   width:300px;
 }
 
-/* Logo */
 .logo {
   width:80px;
-  animation: float 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0% { transform: translateY(0px);}
-  50% { transform: translateY(-8px);}
-  100% { transform: translateY(0px);}
-}
-
-/* Brand */
 h1 {
-  color:#facc15;
-  margin:10px 0;
+  color:orange;
 }
 
-.tag {
-  color:#94a3b8;
-  font-size:13px;
-  margin-bottom:20px;
-}
-
-/* Input */
 input {
   width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
+  padding:10px;
   margin-top:10px;
-  font-size:16px;
-  text-transform: uppercase;
+  border-radius:8px;
+  border:none;
 }
 
-/* Button */
 button {
   width:100%;
-  padding:12px;
-  margin-top:15px;
-  background:#facc15;
+  padding:10px;
+  margin-top:10px;
+  background:orange;
   border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
+  border-radius:8px;
 }
 
-button:hover {
-  background:#eab308;
-  box-shadow:0 0 10px #facc15;
-}
-
-/* Result */
 .result {
-  margin-top:20px;
-  font-size:24px;
-  color:#22c55e;
-  font-weight:bold;
+  margin-top:15px;
+  font-size:22px;
+  color:lightgreen;
+}
+
+#reader {
+  margin-top:10px;
 }
 </style>
 </head>
@@ -94,26 +68,31 @@ button:hover {
 
 <div class="card">
 
-  <img src="logo.png" class="logo">
+<img src="logo.png" class="logo">
 
-  <h1>FONE FUSION</h1>
-  <div class="tag">Mobile • Accessories • Covers</div>
+<h1>FONE FUSION</h1>
 
-  <input id="code" placeholder="Enter Code">
-  <button onclick="calculatePrice()">Check Price</button>
+<input id="code" placeholder="Enter Code">
 
-  <div class="result" id="result"></div>
+<button onclick="calculatePrice()">Check Price</button>
+<button onclick="startScanner()">Scan QR</button>
+
+<div id="reader"></div>
+
+<div class="result" id="result"></div>
 
 </div>
 
 <script>
+
+// PRICE LOGIC
 function calculatePrice() {
   let input = document.getElementById("code").value.toUpperCase();
 
   let map = {
-    F: "1", U: "2", S: "3", I: "4",
-    O: "5", N: "6", T: "7", E: "8",
-    C: "9", H: "0"
+    F:"1",U:"2",S:"3",I:"4",
+    O:"5",N:"6",T:"7",E:"8",
+    C:"9",H:"0"
   };
 
   let result = "";
@@ -124,19 +103,35 @@ function calculatePrice() {
     }
   }
 
-  if(result.length > 0){
+  if(result){
     document.getElementById("result").innerText = "₹ " + result;
   } else {
     document.getElementById("result").innerText = "Invalid Code";
   }
 }
 
-/* ENTER PRESS SEARCH */
+// QR SCANNER
+function startScanner(){
+  const qr = new Html5Qrcode("reader");
+
+  qr.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 200 },
+    (decodedText) => {
+      document.getElementById("code").value = decodedText;
+      calculatePrice();
+      qr.stop();
+    }
+  );
+}
+
+// ENTER PRESS
 document.getElementById("code").addEventListener("keypress", function(e){
   if(e.key === "Enter"){
     calculatePrice();
   }
 });
+
 </script>
 
 </body>
