@@ -2,136 +2,267 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fone Fusion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fone Fusion | Pro Scanner</title>
 
-<!-- QR LIBRARY -->
 <script src="https://unpkg.com/html5-qrcode"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin:0;
-  font-family: Arial;
-  background:#0f172a;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
+  :root {
+    --primary: #fb923c; /* Bright Orange */
+    --primary-hover: #f97316;
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
 
-.card {
-  background:#1e293b;
-  padding:25px;
-  border-radius:15px;
-  text-align:center;
-  width:300px;
-}
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-gradient);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
-.logo {
-  width:80px;
-}
+  /* Entrance Animation */
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
 
-h1 {
-  color:orange;
-}
+  .card {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px 30px;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    width: 340px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: fadeInScale 0.6s ease-out;
+  }
 
-input {
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
-}
+  .logo-container {
+    margin-bottom: 20px;
+  }
 
-button {
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  background:orange;
-  border:none;
-  border-radius:8px;
-}
+  .logo {
+    width: 70px;
+    filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.3));
+    transition: transform 0.3s ease;
+  }
 
-.result {
-  margin-top:15px;
-  font-size:22px;
-  color:lightgreen;
-}
+  .logo:hover {
+    transform: rotate(5deg) scale(1.1);
+  }
 
-#reader {
-  margin-top:10px;
-}
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0 0 25px 0;
+    background: linear-gradient(to right, #fb923c, #f43f5e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 15px;
+  }
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #000;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 1px solid var(--glass-border);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Result Area */
+  .result-container {
+    margin-top: 25px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .result-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    display: none;
+  }
+
+  .result-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4ade80;
+    text-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+  }
+
+  #reader {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 15px;
+    border: none !important; /* Hide library borders */
+  }
+
+  /* Pulse animation for scanner */
+  .scanning-active {
+    border: 2px solid var(--primary) !important;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(251, 146, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0); }
+  }
 </style>
 </head>
-
 <body>
 
 <div class="card">
+  <div class="logo-container">
+    <img src="logo.png" class="logo" alt="Logo">
+  </div>
+  
+  <h1>FONE FUSION</h1>
 
-<img src="logo.png" class="logo">
+  <div class="input-group">
+    <input id="code" placeholder="Enter secret code..." autocomplete="off">
+  </div>
 
-<h1>FONE FUSION</h1>
+  <button class="btn btn-primary" onclick="calculatePrice()">
+    Check Price
+  </button>
+  
+  <button class="btn btn-secondary" onclick="startScanner()" id="scanBtn">
+    <span>📷</span> Scan QR Code
+  </button>
 
-<input id="code" placeholder="Enter Code">
+  <div id="reader"></div>
 
-<button onclick="calculatePrice()">Check Price</button>
-<button onclick="startScanner()">Scan QR</button>
-
-<div id="reader"></div>
-
-<div class="result" id="result"></div>
-
+  <div class="result-container">
+    <div id="resLabel" class="result-label">Calculated Price</div>
+    <div class="result-value" id="result"></div>
+  </div>
 </div>
 
 <script>
+  function calculatePrice() {
+    const inputField = document.getElementById("code");
+    const resultDiv = document.getElementById("result");
+    const label = document.getElementById("resLabel");
+    
+    let input = inputField.value.toUpperCase();
 
-// PRICE LOGIC
-function calculatePrice() {
-  let input = document.getElementById("code").value.toUpperCase();
+    let map = {
+      F:"1", U:"2", S:"3", I:"4",
+      O:"5", N:"6", T:"7", E:"8",
+      C:"9", H:"0"
+    };
 
-  let map = {
-    F:"1",U:"2",S:"3",I:"4",
-    O:"5",N:"6",T:"7",E:"8",
-    C:"9",H:"0"
-  };
+    let result = "";
+    for (let i = 0; i < input.length; i++) {
+      if (map[input[i]]) {
+        result += map[input[i]];
+      }
+    }
 
-  let result = "";
-
-  for (let i = 0; i < input.length; i++) {
-    if (map[input[i]]) {
-      result += map[input[i]];
+    if(result){
+      label.style.display = "block";
+      resultDiv.innerText = "₹ " + result;
+      resultDiv.style.color = "#4ade80"; // Green
+    } else {
+      label.style.display = "none";
+      resultDiv.innerText = "Invalid Code";
+      resultDiv.style.color = "#f87171"; // Red
     }
   }
 
-  if(result){
-    document.getElementById("result").innerText = "₹ " + result;
-  } else {
-    document.getElementById("result").innerText = "Invalid Code";
+  function startScanner(){
+    const readerDiv = document.getElementById("reader");
+    readerDiv.classList.add('scanning-active');
+    
+    const qr = new Html5Qrcode("reader");
+
+    qr.start(
+      { facingMode: "environment" },
+      { fps: 15, qrbox: { width: 250, height: 250 } },
+      (decodedText) => {
+        document.getElementById("code").value = decodedText;
+        calculatePrice();
+        qr.stop().then(() => {
+          readerDiv.classList.remove('scanning-active');
+        });
+      }
+    ).catch(err => {
+      console.error("Camera error:", err);
+      alert("Please allow camera access.");
+    });
   }
-}
 
-// QR SCANNER
-function startScanner(){
-  const qr = new Html5Qrcode("reader");
-
-  qr.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 200 },
-    (decodedText) => {
-      document.getElementById("code").value = decodedText;
-      calculatePrice();
-      qr.stop();
-    }
-  );
-}
-
-// ENTER PRESS
-document.getElementById("code").addEventListener("keypress", function(e){
-  if(e.key === "Enter"){
-    calculatePrice();
-  }
-});
-
+  // Support Enter key
+  document.getElementById("code").addEventListener("keypress", (e) => {
+    if(e.key === "Enter") calculatePrice();
+  });
 </script>
 
 </body>
