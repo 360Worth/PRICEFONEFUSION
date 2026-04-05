@@ -3,267 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fone Fusion | Pro Scanner</title>
+<title>Fone Fusion | Premium Dashboard</title>
 
 <script src="https://unpkg.com/html5-qrcode"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --primary: #fb923c; /* Bright Orange */
-    --primary-hover: #f97316;
-    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --glass: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent: #ff7b00;
+    --accent-glow: rgba(255, 123, 0, 0.3);
+    --bg: #05070a;
+    --card-bg: #11141b;
+    --text-main: #ffffff;
+    --text-dim: #94a3b8;
+    --border: #262c3a;
   }
+
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg-gradient);
-    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(circle at 50% -20%, #1e293b 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, #0f172a 0%, transparent 40%);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
   }
 
-  /* Entrance Animation */
-  @keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+  /* Main Container */
+  .container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    perspective: 1000px;
   }
 
-  .card {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  .main-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 32px;
     padding: 40px 30px;
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Header Section */
+  .header {
     text-align: center;
-    width: 340px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: fadeInScale 0.6s ease-out;
+    margin-bottom: 35px;
   }
 
-  .logo-container {
-    margin-bottom: 20px;
-  }
-
-  .logo {
-    width: 70px;
-    filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.3));
-    transition: transform 0.3s ease;
-  }
-
-  .logo:hover {
-    transform: rotate(5deg) scale(1.1);
+  .brand-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(255, 123, 0, 0.1);
+    color: var(--accent);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
   }
 
   h1 {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin: 0 0 25px 0;
-    background: linear-gradient(to right, #fb923c, #f43f5e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 28px;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.5px;
   }
 
-  .input-group {
+  /* Input Design */
+  .input-wrapper {
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
 
   input {
     width: 100%;
-    box-sizing: border-box;
-    padding: 14px 16px;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
+    background: #1a1f29;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
     color: white;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: scale(1.02);
+  }
+
+  /* Action Buttons */
+  .actions {
+    display: grid;
+    gap: 12px;
   }
 
   .btn {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 15px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    border: none;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px;
+    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .btn-primary {
-    background: var(--primary);
-    color: #000;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 10px 25px -5px rgba(255, 123, 0, 0.4);
   }
 
-  .btn-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
+  .btn-primary:active { transform: scale(0.96); }
+
+  .btn-scan {
+    background: #262c3a;
+    color: var(--text-dim);
   }
 
-  .btn-secondary {
-    background: transparent;
-    color: white;
-    border: 1px solid var(--glass-border);
+  .btn-scan:hover { color: #fff; background: #31394a; }
+
+  /* Scanner Preview */
+  #reader {
+    margin-top: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px dashed var(--border);
   }
 
-  .btn-secondary:hover {
-    background: rgba(255,255,255,0.05);
+  /* Result Display */
+  .display-price {
+    margin-top: 35px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    min-height: 100px;
   }
 
-  /* Result Area */
-  .result-container {
-    margin-top: 25px;
-    min-height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .result-label {
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #94a3b8;
-    margin-bottom: 5px;
+  .price-label {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
     display: none;
   }
 
-  .result-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: #4ade80;
-    text-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
-  }
-
-  #reader {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-top: 15px;
-    border: none !important; /* Hide library borders */
-  }
-
-  /* Pulse animation for scanner */
-  .scanning-active {
-    border: 2px solid var(--primary) !important;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(251, 146, 60, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(251, 146, 60, 0); }
-  }
-</style>
-</head>
-<body>
-
-<div class="card">
-  <div class="logo-container">
-    <img src="logo.png" class="logo" alt="Logo">
-  </div>
-  
-  <h1>FONE FUSION</h1>
-
-  <div class="input-group">
-    <input id="code" placeholder="Enter secret code..." autocomplete="off">
-  </div>
-
-  <button class="btn btn-primary" onclick="calculatePrice()">
-    Check Price
-  </button>
-  
-  <button class="btn btn-secondary" onclick="startScanner()" id="scanBtn">
-    <span>📷</span> Scan QR Code
-  </button>
-
-  <div id="reader"></div>
-
-  <div class="result-container">
-    <div id="resLabel" class="result-label">Calculated Price</div>
-    <div class="result-value" id="result"></div>
-  </div>
-</div>
-
-<script>
-  function calculatePrice() {
-    const inputField = document.getElementById("code");
-    const resultDiv = document.getElementById("result");
-    const label = document.getElementById("resLabel");
-    
-    let input = inputField.value.toUpperCase();
-
-    let map = {
-      F:"1", U:"2", S:"3", I:"4",
-      O:"5", N:"6", T:"7", E:"8",
-      C:"9", H:"0"
-    };
-
-    let result = "";
-    for (let i = 0; i < input.length; i++) {
-      if (map[input[i]]) {
-        result += map[input[i]];
-      }
-    }
-
-    if(result){
-      label.style.display = "block";
-      resultDiv.innerText = "₹ " + result;
-      resultDiv.style.color = "#4ade80"; // Green
-    } else {
-      label.style.display = "none";
-      resultDiv.innerText = "Invalid Code";
-      resultDiv.style.color = "#f87171"; // Red
-    }
-  }
-
-  function startScanner(){
-    const readerDiv = document.getElementById("reader");
-    readerDiv.classList.add('scanning-active');
-    
-    const qr = new Html5Qrcode("reader");
-
-    qr.start(
-      { facingMode: "environment" },
-      { fps: 15, qrbox: { width: 250, height: 250 } },
-      (decodedText) => {
-        document.getElementById("code").value = decodedText;
-        calculatePrice();
-        qr.stop().then(() => {
-          readerDiv.classList.remove('scanning-active');
-        });
-      }
-    ).catch(err => {
-      console.error("Camera error:", err);
-      alert("Please allow camera access.");
-    });
-  }
-
-  // Support Enter key
-  document.getElementById("code").addEventListener("keypress", (e) => {
-    if(e.key === "Enter") calculatePrice();
-  });
-</script>
-
-</body>
-</html>
+  .price-amount {
+    font-size
