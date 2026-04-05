@@ -1,3 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fone Fusion Price Checker</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  margin-top: 80px;
+}
+
+.logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  color: #facc15;
+  margin: 5px;
+}
+
+p {
+  color: #cbd5f5;
+  margin-bottom: 30px;
+}
+
+.box {
+  background: rgba(255,255,255,0.1);
+  padding: 25px;
+  border-radius: 15px;
+  display: inline-block;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+input {
+  padding: 12px;
+  width: 220px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 20px;
+  background: #facc15;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+button:hover {
+  background: #eab308;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 22px;
+  color: #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGO -->
+  <img src="logo.png" class="logo">
+
+  <!-- BRAND -->
+  <h1>FONE FUSION</h1>
+  <p>Cover | Mobile Phones | Accessories</p>
+
+  <!-- SEARCH BOX -->
+  <div class="box">
+    <input id="code" placeholder="Enter Code (FUSION)">
+    <button onclick="calculatePrice()">Search</button>
+    <div class="result" id="result"></div>
+  </div>
+
+</div>
+
 <script>
 function calculatePrice() {
   let input = document.getElementById("code").value.toUpperCase();
@@ -17,13 +110,12 @@ function calculatePrice() {
   }
 
   if(result.length > 0){
-    document.getElementById("result").innerText = "Price: ₹" + result;
+    document.getElementById("result").innerText = "₹ " + result;
   } else {
     document.getElementById("result").innerText = "Invalid Code";
   }
 }
 </script>
 
-<input id="code" placeholder="Enter Code (FUSION)">
-<button onclick="calculatePrice()">Check Price</button>
-<h2 id="result"></h2>
+</body>
+</html>
